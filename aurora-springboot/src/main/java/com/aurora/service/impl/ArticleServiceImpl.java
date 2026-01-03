@@ -27,10 +27,14 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.SneakyThrows;
+import org.apache.dubbo.config.annotation.DubboReference;
+import org.apache.dubbo.config.annotation.DubboService;
+import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageProperties;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -371,6 +375,34 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
                     .collect(Collectors.toList());
             articleTagService.saveBatch(articleTags);
         }
+    }
+
+    @DubboReference(version = "1.0.0")
+    private ArticleService articleService;
+    @Override
+    public List<ArticleRankListDTO> listArticlesTop() {
+//        Map<Object, Double> articleMap = redisService.zReverseRangeWithScore(ARTICLE_VIEWS_COUNT, 0, 10);
+//        //以value为key，value为viewsCount，排序后返回articleRankDTOList，只要前10个
+//        articleMap = articleMap.entrySet().stream()
+//                .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+//                .limit(10)
+//                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+//        List<ArticleRankListDTO> articleRankDTOList = new ArrayList<>();
+//        List<Article> articles = articleMapper.selectList(new LambdaQueryWrapper<Article>()
+//                .select(Article::getId, Article::getArticleTitle)
+//                .in(Article::getId, articleMap.keySet()));
+//        Map<Integer, String> articleTitleMap = articles.stream()
+//                .collect(Collectors.toMap(Article::getId, Article::getArticleTitle));
+//        for (Map.Entry<Object, Double> entry : articleMap.entrySet()) {
+//            articleRankDTOList.add(ArticleRankListDTO.builder()
+//                    .articleId((Integer) entry.getKey())
+//                    .viewsCount(entry.getValue().intValue())
+//                    .articleTitle(articleTitleMap.get((Integer) entry.getKey()))
+//                    .build());
+//        }
+        List<ArticleRankListDTO> articleRankDTOList =articleService.listArticlesTop();
+
+        return articleRankDTOList;
     }
 
 }

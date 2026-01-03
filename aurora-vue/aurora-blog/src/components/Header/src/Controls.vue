@@ -49,9 +49,9 @@
       <el-form-item>
         <el-button type="primary" @click="login" size="large" class="mx-auto mt-3">登录</el-button>
       </el-form-item>
-      <el-form-item>
+      <!-- <el-form-item>
         <el-button type="button" class="mx-auto my-el-button" @click="qqLogin">QQ登录</el-button>
-      </el-form-item>
+      </el-form-item> -->
       <div class="mt-8">
         <span class="text" @click="openRegisterDialog">立即注册</span>
         <span class="text float-right" @click="openForgetPasswordDialog">忘记密码?</span>

@@ -10,6 +10,8 @@ import com.aurora.model.vo.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
+
+import org.apiguardian.api.API;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -150,4 +152,10 @@ public class ArticleController {
         return ResultVO.ok(articleService.listArticlesBySearch(condition));
     }
 
+    @ApiOperation("根据访问量获取文章排行榜")
+    @GetMapping("/articles/top")
+    public ResultVO<List<ArticleRankListDTO>> listArticlesTop() {
+        return ResultVO.ok(articleService.listArticlesTop());
+    }
+    
 }

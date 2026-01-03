@@ -1,0 +1,72 @@
+server:
+    port: 8081
+
+spring:
+  datasource:
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://8.152.192.41:3306/aurora?serverTimezone=Asia/Shanghai&allowMultiQueries=true
+        username: root
+        password: 18328767440Ll@
+        hikari:
+            minimum-idle: 10
+            idle-timeout: 180000
+            maximum-pool-size: 100
+            auto-commit: true
+            pool-name: MyHikariCP
+            max-lifetime: 60000
+            connection-timeout: 30000
+            connection-test-query: SELECT 1
+  servlet:
+        multipart:
+        max-file-size: 100MB
+        max-request-size: 100MB
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 115.190.50.228:8848
+        namespace: e9c52902-45c6-4b3a-8a6d-3dd006a51b1c
+        group: DEFAULT_GROUP
+      config:
+        server-addr: 115.190.50.228:8848
+        file-extension: yaml
+        namespace: e9c52902-45c6-4b3a-8a6d-3dd006a51b1c
+        group: DEFAULT_GROUP
+  application:
+    name: aurora-like
+  redis:
+    host: 115.190.50.228
+    port: 6379
+    password: a1234
+    database: 4
+    lettuce:
+      pool:
+        min-idle: 10
+        max-idle: 100
+        max-active: 100
+        max-wait: 10000
+
+  rabbitmq:
+    host: 115.190.50.228
+    port: 5672
+    username: root
+    password: a1234
+    listener:
+      simple:
+        retry:
+          enabled: true
+          max-attempts: 3
+          initial-interval: 3000
+
+dubbo:
+  application:
+    name: aurora-like
+  registry:
+    address: nacos://115.190.50.228:8848
+    parameters:
+      namespace: e9c52902-45c6-4b3a-8a6d-3dd006a51b1c
+  protocol:
+    name: dubbo
+    port: 20880
+  scan:
+    base-packages: com.aurora.like.service
