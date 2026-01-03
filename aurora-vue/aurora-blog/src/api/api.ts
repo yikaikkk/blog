@@ -7,6 +7,9 @@ export default {
   getArticles: (params: any) => {
     return axios.get('/api/articles/all', { params: params })
   },
+  getArticleTopList: () => {
+    return axios.get('/api/articles/top')
+  },
   getArticlesByCategoryId: (params: any) => {
     return axios.get('/api/articles/categoryId', { params: params })
   },
